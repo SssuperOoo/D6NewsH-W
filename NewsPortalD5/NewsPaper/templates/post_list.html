@@ -1,0 +1,30 @@
+{% extends 'flatpages/default.html' %}
+
+
+{% load custom_filters %}
+{% load custom_tags %}
+
+{% block content %}
+{% if posts %}
+<table>
+    <tr>
+        <td>Заголовок</td>
+        <td>Дата публикации</td>
+        <td>Содержание</td>
+    </tr>
+    {% for post in posts %}
+    <tr>
+        <td>{{ post.title | wordchange }}</td>
+        <td>{% format_date post '%d %b %Y' %}</td>
+        <td>{{ post.text | truncatechars:20 | wordchange}}</td>
+        {% for cat in post.category.all %}
+        <td>{{ cat.name }}</td>
+        {% endfor %}
+        <td>{{ post.category}}</td>
+    </tr>
+    {% endfor %}
+</table>
+{% else %}
+<h3>Публикаций нет!</h3>
+{% endif %}
+{% endblock content %}
